@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { Menu, Search, X } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
-import { LanguageSwitcher } from './LanguageSwitcher';
 import { TRANSLATIONS, type Language } from '../utils/i18n';
 
 interface NavbarProps {
@@ -16,6 +15,7 @@ export function Navbar({ onOpenMobileMenu, mobileMenuOpen, lang, setLang, active
   const [scrolled, setScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isAnimating, setIsAnimating] = useState(false);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const t = TRANSLATIONS[lang].nav;
 
@@ -61,6 +61,14 @@ export function Navbar({ onOpenMobileMenu, mobileMenuOpen, lang, setLang, active
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  const handleLanguageToggle = () => {
+    setIsAnimating(true);
+    setTimeout(() => {
+      setLang(lang === 'fr' ? 'ar' : 'fr');
+      setIsAnimating(false);
+    }, 220);
+  };
+
   return (
     <header
       className={`sticky top-0 z-40 w-full transition-colors duration-300 ${
@@ -69,7 +77,7 @@ export function Navbar({ onOpenMobileMenu, mobileMenuOpen, lang, setLang, active
           : 'bg-[#F3EBDD] border-b border-[#173D32]/10'
       }`}
     >
-      <div className="mx-auto flex max-w-[1360px] items-center justify-between gap-2 sm:gap-4 lg:gap-5 2xl:gap-8 px-3 sm:px-8 py-3 sm:py-3.5">
+      <div className="mx-auto flex max-w-[1360px] items-center justify-between gap-2 sm:gap-4 lg:gap-8 px-3 sm:px-8 py-3 sm:py-3.5">
         <a
           href="#accueil"
           aria-label="CHOCO LOUTI — Retour à l'accueil"
@@ -80,7 +88,7 @@ export function Navbar({ onOpenMobileMenu, mobileMenuOpen, lang, setLang, active
 
         <nav
           aria-label={t.navAria}
-          className="hidden xl:flex items-center gap-4 2xl:gap-6"
+          className="hidden xl:flex items-center gap-5 xl:gap-6"
         >
           {NAV_ITEMS.map((item) => {
             const isActive = item.href === `#${activeSection}`;
@@ -160,13 +168,16 @@ export function Navbar({ onOpenMobileMenu, mobileMenuOpen, lang, setLang, active
             )}
           </div>
 
-          <LanguageSwitcher
-            lang={lang}
-            onChange={setLang}
-            surface="ivory"
-            size="compact"
-            className="hidden md:inline-grid"
-          />
+          <button
+            type="button"
+            onClick={handleLanguageToggle}
+            aria-label={lang === 'fr' ? 'Passer en arabe' : 'Passer en français'}
+            className={`hidden md:inline-flex items-center gap-1.5 px-3 py-2 text-[12px] font-medium tracking-[0.08em] uppercase border border-[#173D32]/30 text-[#173D32] hover:border-[#C5A45A] hover:text-[#C5A45A] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#173D32] ${
+              isAnimating ? 'opacity-0 scale-95 translate-y-1' : 'opacity-100 scale-100 translate-y-0'
+            }`}
+          >
+            <span>{lang === 'fr' ? 'العربية' : 'Français'}</span>
+          </button>
 
           <a
             href="#personnalisation"

@@ -1,5 +1,5 @@
+import { Globe } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
-import { LanguageSwitcher } from './LanguageSwitcher';
 import { OrnamentDivider } from './OrnamentDivider';
 import { SocialMediaBar } from './SocialMediaBar';
 import { TRANSLATIONS, type Language } from '../utils/i18n';
@@ -40,13 +40,15 @@ export function Footer({ lang, setLang }: FooterProps) {
             <div className="pt-2 flex flex-wrap items-center gap-4">
               <SocialMediaBar />
               {setLang && (
-                <LanguageSwitcher
-                  lang={lang}
-                  onChange={setLang}
-                  surface="dark"
-                  size="expanded"
-                  showIcon
-                />
+                <button
+                  type="button"
+                  onClick={() => setLang(lang === 'fr' ? 'ar' : 'fr')}
+                  aria-label={lang === 'fr' ? 'Passer en arabe' : 'Passer en français'}
+                  className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-medium tracking-[0.08em] uppercase border border-[#C5A45A]/45 text-[#F3EBDD] hover:border-[#C5A45A] hover:text-[#C5A45A] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C5A45A]"
+                >
+                  <Globe className="w-3.5 h-3.5 text-[#C5A45A]" aria-hidden="true" />
+                  <span>{lang === 'fr' ? 'العربية' : 'Français'}</span>
+                </button>
               )}
             </div>
           </div>

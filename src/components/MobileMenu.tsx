@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { Search, X } from 'lucide-react';
+import { Globe, Search, X } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
-import { LanguageSwitcher } from './LanguageSwitcher';
 import { OrnamentDivider } from './OrnamentDivider';
 import { TRANSLATIONS, type Language } from '../utils/i18n';
 
@@ -14,6 +13,7 @@ interface MobileMenuProps {
 
 export function MobileMenu({ open, onClose, lang, setLang }: MobileMenuProps) {
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+  const [isAnimating, setIsAnimating] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const t = TRANSLATIONS[lang].nav;
 
@@ -63,6 +63,14 @@ export function MobileMenu({ open, onClose, lang, setLang }: MobileMenuProps) {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [open, onClose]);
+
+  const handleLanguageToggle = () => {
+    setIsAnimating(true);
+    setTimeout(() => {
+      setLang(lang === 'fr' ? 'ar' : 'fr');
+      setIsAnimating(false);
+    }, 220);
+  };
 
   if (!open) return null;
 
@@ -167,14 +175,17 @@ export function MobileMenu({ open, onClose, lang, setLang }: MobileMenuProps) {
             {t.imagineMyCreation}
           </a>
 
-          <LanguageSwitcher
-            lang={lang}
-            onChange={setLang}
-            surface="dark"
-            size="expanded"
-            showIcon
-            className="w-full"
-          />
+          <button
+            type="button"
+            onClick={handleLanguageToggle}
+            aria-label={lang === 'fr' ? 'Passer en arabe' : 'Passer en français'}
+            className={`flex w-full items-center justify-center gap-2.5 px-5 py-2.5 text-xs font-medium tracking-[0.12em] uppercase border border-[#C5A45A]/50 text-[#F3EBDD] hover:border-[#C5A45A] hover:text-[#C5A45A] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C5A45A] ${
+              isAnimating ? 'opacity-0 scale-95 translate-y-1' : 'opacity-100 scale-100 translate-y-0'
+            }`}
+          >
+            <Globe className="w-4 h-4 text-[#C5A45A]" aria-hidden="true" />
+            <span>{lang === 'fr' ? 'Version Arabe — العربية' : 'Version Française — Français'}</span>
+          </button>
 
           <p className="text-center text-[11px] tracking-[0.22em] uppercase text-[#DCE4D9]/80">
             {lang === 'fr' ? 'L’art du chocolat sur mesure' : 'فن الشوكولاتة المصنوعة حسب الطلب'}
