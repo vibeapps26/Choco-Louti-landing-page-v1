@@ -67,17 +67,17 @@ export function CreationGallery({ lang }: CreationGalleryProps) {
         <ScrollReveal>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-10 border-b border-[#173D32]/15">
             <div className="space-y-3 max-w-2xl">
-              <p className="text-xs font-medium tracking-[0.22em] uppercase text-[#173D32]">
+              <p className="text-[11px] sm:text-xs font-medium tracking-[0.16em] sm:tracking-[0.22em] uppercase text-[#173D32]">
                 {t.eyebrow}
               </p>
               <h2
                 id="creations-heading"
-                className="font-editorial font-normal text-[#173D32] text-[clamp(2rem,3.4vw,3.15rem)] leading-[1.12] text-balance"
+                className="font-editorial font-normal text-[#173D32] text-[clamp(1.65rem,3.4vw,3.15rem)] leading-[1.2] sm:leading-[1.12] text-balance"
               >
                 {t.title}
               </h2>
             </div>
-            <p className="max-w-md text-sm sm:text-base leading-relaxed text-[#3B241D]/80">
+            <p className="max-w-md text-[13.5px] sm:text-base leading-[1.65] text-[#3B241D]/80">
               {t.desc}
             </p>
           </div>
@@ -125,13 +125,13 @@ export function CreationGallery({ lang }: CreationGalleryProps) {
               </div>
 
               <div className="pt-5 space-y-2">
-                <p className="text-[11px] tracking-[0.18em] uppercase text-[#B9875B] font-medium">
+                <p className="text-[11px] tracking-[0.14em] sm:tracking-[0.18em] uppercase text-[#B9875B] font-medium leading-snug">
                   {primary.subtitle}
                 </p>
-                <h3 className="font-editorial text-2xl sm:text-[28px] text-[#173D32] leading-snug">
+                <h3 className="font-editorial text-xl sm:text-[28px] text-[#173D32] leading-[1.25] sm:leading-snug">
                   {primary.title}
                 </h3>
-                <p className="text-sm sm:text-[15px] leading-relaxed text-[#3B241D]/85 max-w-2xl">
+                <p className="text-[13.5px] sm:text-[15px] leading-[1.65] text-[#3B241D]/85 max-w-2xl">
                   {primary.caption}
                 </p>
               </div>
@@ -178,13 +178,13 @@ export function CreationGallery({ lang }: CreationGalleryProps) {
                   </button>
                 </div>
                 <div className="pt-4 space-y-1.5">
-                  <p className="text-[11px] tracking-[0.18em] uppercase text-[#B9875B] font-medium">
+                  <p className="text-[11px] tracking-[0.14em] sm:tracking-[0.18em] uppercase text-[#B9875B] font-medium leading-snug">
                     {secondary.subtitle}
                   </p>
-                  <h3 className="font-editorial text-2xl text-[#173D32]">
+                  <h3 className="font-editorial text-xl sm:text-2xl text-[#173D32] leading-[1.25] sm:leading-snug">
                     {secondary.title}
                   </h3>
-                  <p className="text-sm leading-relaxed text-[#3B241D]/85">
+                  <p className="text-[13.5px] sm:text-sm leading-[1.65] text-[#3B241D]/85">
                     {secondary.caption}
                   </p>
                 </div>
@@ -219,14 +219,14 @@ export function CreationGallery({ lang }: CreationGalleryProps) {
                       </div>
                     </div>
                   </div>
-                  <div className="sm:col-span-7 space-y-2.5 sm:pl-2">
-                    <p className="text-[11px] tracking-[0.18em] uppercase text-[#C5A45A] font-medium">
+                  <div className="sm:col-span-7 space-y-2.5 sm:ps-2">
+                    <p className="text-[11px] tracking-[0.14em] sm:tracking-[0.18em] uppercase text-[#C5A45A] font-medium leading-snug">
                       {detail.subtitle}
                     </p>
-                    <h3 className="font-editorial text-2xl text-[#F3EBDD] leading-snug">
+                    <h3 className="font-editorial text-xl sm:text-2xl text-[#F3EBDD] leading-[1.25] sm:leading-snug">
                       {detail.title}
                     </h3>
-                    <p className="text-sm leading-relaxed text-[#F3EBDD]/85">
+                    <p className="text-[13.5px] sm:text-sm leading-[1.65] text-[#F3EBDD]/85">
                       {detail.caption}
                     </p>
                     <button
@@ -251,90 +251,95 @@ export function CreationGallery({ lang }: CreationGalleryProps) {
           role="dialog"
           aria-modal="true"
           aria-label={activeCreation.title}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[#173D32]/92 p-4 sm:p-8 backdrop-blur-xs"
+          className="fixed inset-0 z-[70] flex items-center justify-center bg-[#173D32]/92 p-3 sm:p-6 md:p-8 backdrop-blur-xs"
           onClick={() => setActiveIndex(null)}
         >
           <div
-            className="relative w-full max-w-4xl bg-[#F3EBDD] text-[#3B241D] border border-[#C5A45A]/60 p-4 sm:p-6 shadow-2xl"
+            className="relative w-full max-w-4xl max-h-[calc(100dvh-1.5rem)] sm:max-h-[90dvh] flex flex-col bg-[#F3EBDD] text-[#3B241D] border border-[#C5A45A]/60 shadow-2xl overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between gap-4 pb-3 border-b border-[#173D32]/15">
-              <p className="text-xs tracking-[0.18em] uppercase text-[#173D32] font-medium">
+            {/* Pinned header with close button always accessible */}
+            <div className="shrink-0 flex items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-4 border-b border-[#173D32]/15 bg-[#F3EBDD]">
+              <p className="text-[11px] sm:text-xs tracking-[0.12em] sm:tracking-[0.18em] uppercase text-[#173D32] font-medium leading-snug">
                 {activeCreation.focalNote}
               </p>
               <button
                 type="button"
                 onClick={() => setActiveIndex(null)}
                 aria-label={t.closePreview}
-                className="inline-flex items-center justify-center w-10 h-10 text-[#173D32] border border-[#173D32]/20 hover:border-[#C5A45A] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#173D32]"
+                className="shrink-0 inline-flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 text-[#173D32] border border-[#173D32]/25 hover:border-[#C5A45A] hover:bg-[#173D32] hover:text-[#F3EBDD] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#173D32]"
               >
                 <X className="w-5 h-5" aria-hidden="true" />
               </button>
             </div>
 
-            <div className="mt-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-              <div className="md:col-span-6 flex items-center justify-center bg-[#173D32]/5 p-3">
-                <img
-                  src={activeCreation.image.src}
-                  alt={activeCreation.image.alt}
-                  width={activeCreation.image.width}
-                  height={activeCreation.image.height}
-                  referrerPolicy="no-referrer"
-                  className="max-h-[65vh] w-auto object-contain"
-                />
-              </div>
+            {/* Scrollable body for image and full description */}
+            <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain touch-pan-y px-4 py-4 sm:px-6 sm:py-6">
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6 items-start md:items-center">
+                <div className="md:col-span-6 flex items-center justify-center bg-[#173D32]/5 p-2.5 sm:p-3">
+                  <img
+                    src={activeCreation.image.src}
+                    alt={activeCreation.image.alt}
+                    width={activeCreation.image.width}
+                    height={activeCreation.image.height}
+                    referrerPolicy="no-referrer"
+                    className="max-h-[38dvh] sm:max-h-[50dvh] md:max-h-[60dvh] w-auto object-contain"
+                  />
+                </div>
 
-              <div className="md:col-span-6 space-y-4">
-                <p className="text-xs tracking-[0.2em] uppercase text-[#B9875B]">
-                  {activeCreation.subtitle}
-                </p>
-                <h3 className="font-editorial text-3xl text-[#173D32] leading-tight">
-                  {activeCreation.title}
-                </h3>
-                <p className="text-base leading-relaxed text-[#3B241D]/90">
-                  {activeCreation.caption}
-                </p>
-
-                <div className="pt-4 border-t border-[#173D32]/15 flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setActiveIndex(
-                          getWrappedIndex(activeIndex, -1, creations.length)
-                        )
-                      }
-                      aria-label={t.prev}
-                      className="inline-flex items-center justify-center w-10 h-10 border border-[#173D32]/25 text-[#173D32] hover:bg-[#173D32] hover:text-[#F3EBDD] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#173D32]"
-                    >
-                      <ChevronLeft className="w-4 h-4" aria-hidden="true" />
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setActiveIndex(
-                          getWrappedIndex(activeIndex, 1, creations.length)
-                        )
-                      }
-                      aria-label={t.next}
-                      className="inline-flex items-center justify-center w-10 h-10 border border-[#173D32]/25 text-[#173D32] hover:bg-[#173D32] hover:text-[#F3EBDD] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#173D32]"
-                    >
-                      <ChevronRight className="w-4 h-4" aria-hidden="true" />
-                    </button>
-                    <span className="ml-2 text-xs text-[#3B241D]/70 tabular-nums">
-                      {activeIndex + 1} / {creations.length}
-                    </span>
-                  </div>
-
-                  <a
-                    href="#contact"
-                    onClick={() => setActiveIndex(null)}
-                    className="inline-flex items-center justify-center bg-[#173D32] text-[#F3EBDD] hover:bg-[#3B241D] px-5 py-2.5 text-xs font-medium tracking-[0.1em] uppercase transition-colors"
-                  >
-                    {t.requestCreation}
-                  </a>
+                <div className="md:col-span-6 space-y-2.5 sm:space-y-4">
+                  <p className="text-[11px] sm:text-xs tracking-[0.14em] sm:tracking-[0.2em] uppercase text-[#B9875B]">
+                    {activeCreation.subtitle}
+                  </p>
+                  <h3 className="font-editorial text-[1.45rem] sm:text-3xl text-[#173D32] leading-[1.2] sm:leading-tight">
+                    {activeCreation.title}
+                  </h3>
+                  <p className="text-[14.5px] sm:text-base leading-[1.65] text-[#3B241D]/90">
+                    {activeCreation.caption}
+                  </p>
                 </div>
               </div>
+            </div>
+
+            {/* Pinned footer with prev/next navigation and CTA */}
+            <div className="shrink-0 px-4 py-3 sm:px-6 sm:py-4 border-t border-[#173D32]/15 bg-[#F3EBDD] flex flex-wrap items-center justify-between gap-3">
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setActiveIndex(
+                      getWrappedIndex(activeIndex, -1, creations.length)
+                    )
+                  }
+                  aria-label={t.prev}
+                  className="inline-flex items-center justify-center w-10 h-10 border border-[#173D32]/25 text-[#173D32] hover:bg-[#173D32] hover:text-[#F3EBDD] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#173D32]"
+                >
+                  <ChevronLeft className="w-4 h-4 rtl:rotate-180" aria-hidden="true" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setActiveIndex(
+                      getWrappedIndex(activeIndex, 1, creations.length)
+                    )
+                  }
+                  aria-label={t.next}
+                  className="inline-flex items-center justify-center w-10 h-10 border border-[#173D32]/25 text-[#173D32] hover:bg-[#173D32] hover:text-[#F3EBDD] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#173D32]"
+                >
+                  <ChevronRight className="w-4 h-4 rtl:rotate-180" aria-hidden="true" />
+                </button>
+                <span className="ms-2 text-xs text-[#3B241D]/70 tabular-nums">
+                  {activeIndex + 1} / {creations.length}
+                </span>
+              </div>
+
+              <a
+                href="#contact"
+                onClick={() => setActiveIndex(null)}
+                className="inline-flex items-center justify-center bg-[#173D32] text-[#F3EBDD] hover:bg-[#3B241D] px-4 sm:px-5 py-2.5 text-xs font-medium tracking-[0.1em] uppercase transition-colors"
+              >
+                {t.requestCreation}
+              </a>
             </div>
           </div>
         </div>

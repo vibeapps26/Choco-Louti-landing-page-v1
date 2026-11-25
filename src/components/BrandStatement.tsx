@@ -16,10 +16,10 @@ export function BrandStatement({ lang }: BrandStatementProps) {
     >
       <ScrollReveal className="mx-auto max-w-[1040px] px-4 sm:px-8 text-center space-y-6 sm:space-y-7">
         <OrnamentDivider tone="gold" align="center" />
-        <blockquote className="font-editorial italic font-normal text-[#173D32] text-[clamp(1.85rem,3.8vw,3.25rem)] leading-[1.2] text-balance">
+        <blockquote className="font-editorial italic font-normal text-[#173D32] text-[clamp(1.5rem,3.8vw,3.25rem)] leading-[1.32] sm:leading-[1.2] text-balance">
           {t.quote}
         </blockquote>
-        <p className="text-xs tracking-[0.24em] uppercase text-[#B9875B]">
+        <p className="text-[11px] sm:text-xs tracking-[0.16em] sm:tracking-[0.24em] uppercase text-[#B9875B] leading-relaxed">
           {t.sub}
         </p>
       </ScrollReveal>

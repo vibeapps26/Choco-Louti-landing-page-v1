@@ -84,12 +84,12 @@ export function ContactSection({
           {/* Editorial invitation & CTAs */}
           <ScrollReveal className="lg:col-span-5 space-y-7">
             <div className="space-y-4">
-              <p className="text-xs font-medium tracking-[0.22em] uppercase text-[#173D32]">
+              <p className="text-[11px] sm:text-xs font-medium tracking-[0.16em] sm:tracking-[0.22em] uppercase text-[#173D32]">
                 {t.eyebrow}
               </p>
               <h2
                 id="contact-heading"
-                className="font-editorial font-normal text-[#173D32] text-[clamp(2rem,3.4vw,3.15rem)] leading-[1.12] text-balance"
+                className="font-editorial font-normal text-[#173D32] text-[clamp(1.65rem,3.4vw,3.15rem)] leading-[1.2] sm:leading-[1.12] text-balance"
               >
                 {t.title}
               </h2>
@@ -97,7 +97,7 @@ export function ContactSection({
 
             <OrnamentDivider tone="gold" align="left" />
 
-            <p className="text-base sm:text-[17px] leading-[1.75] text-[#3B241D]/88">
+            <p className="text-[14.5px] sm:text-[17px] leading-[1.7] sm:leading-[1.75] text-[#3B241D]/88">
               {t.desc}
             </p>
 
@@ -312,7 +312,7 @@ export function ContactSection({
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
                     <button
                       type="submit"
-                      className="inline-flex items-center justify-center whitespace-nowrap shrink-0 bg-[#173D32] text-[#F3EBDD] hover:bg-[#3B241D] px-8 py-3.5 text-xs font-semibold tracking-[0.12em] uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C5A45A]"
+                      className="inline-flex items-center justify-center text-center bg-[#173D32] text-[#F3EBDD] hover:bg-[#3B241D] px-6 sm:px-8 py-3.5 text-xs font-semibold tracking-[0.09em] sm:tracking-[0.12em] uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C5A45A]"
                     >
                       {lang === 'ar' ? 'تجهيز الرسالة للواتساب' : 'Préparer la demande WhatsApp'}
                     </button>

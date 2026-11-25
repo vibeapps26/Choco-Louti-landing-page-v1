@@ -14,10 +14,12 @@ export function BrandLogo({
   variant = 'full',
 }: BrandLogoProps) {
   const sizeClasses = {
-    sm: 'h-7 w-auto',
-    md: 'h-8 sm:h-9 w-auto',
-    lg: 'h-10 sm:h-12 w-auto',
+    sm: 'h-10 sm:h-7 w-auto',
+    md: 'h-11 sm:h-9 w-auto',
+    lg: 'h-16 sm:h-11 w-auto',
   }[size];
+
+  const aspectClass = variant === 'icon' ? 'aspect-[5268/5210]' : 'aspect-[10462/1919]';
 
   if (surface === 'dark') {
     const asset = variant === 'icon' ? BRAND_ASSETS.iconGold : BRAND_ASSETS.logoDarkGold;
@@ -27,7 +29,10 @@ export function BrandLogo({
         width={asset.width}
         height={asset.height}
         alt={asset.alt}
-        className={`${sizeClasses} object-contain ${className}`}
+        loading="eager"
+        decoding="sync"
+        fetchPriority="high"
+        className={`${sizeClasses} ${aspectClass} object-contain ${className}`}
       />
     );
   }
@@ -39,7 +44,10 @@ export function BrandLogo({
       width={asset.width}
       height={asset.height}
       alt={asset.alt}
-      className={`${sizeClasses} object-contain ${className}`}
+      loading="eager"
+      decoding="sync"
+      fetchPriority="high"
+      className={`${sizeClasses} ${aspectClass} object-contain ${className}`}
     />
   );
 }

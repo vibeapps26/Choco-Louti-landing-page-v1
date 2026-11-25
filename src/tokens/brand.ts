@@ -10,32 +10,32 @@ export const BRAND_COLORS = {
 export const BRAND_ASSETS = {
   logo: {
     src: '/assets/aistudio/08-3_Plan_de_travail_1_010e3247.png',
-    width: 2170,
-    height: 725,
+    width: 10462,
+    height: 1919,
     alt: 'Logo CHOCO LOUTI — Artisan Chocolatier',
   },
   logoDarkGold: {
     src: '/assets/aistudio/08-3-Gold-Color-for-dark-background_Plan_de_travail_1_981e7988.png',
-    width: 2170,
-    height: 725,
+    width: 10462,
+    height: 1919,
     alt: 'Logo CHOCO LOUTI Or sur fond sombre',
   },
   logoDarkWhite: {
     src: '/assets/aistudio/08-3-WHITE-Color-for-dark-background_Plan_de_travail_1_62b37c6d.png',
-    width: 2170,
-    height: 725,
+    width: 10462,
+    height: 1919,
     alt: 'Logo CHOCO LOUTI Blanc sur fond sombre',
   },
   iconGold: {
     src: '/assets/aistudio/08-4-Gold-Colo-icon-for-dark-background_97787115.png',
-    width: 800,
-    height: 800,
+    width: 5268,
+    height: 5210,
     alt: 'Icône CHOCO LOUTI Or',
   },
   iconWhite: {
     src: '/assets/aistudio/08-4-WHITE-Colo-icon-for-dark-background_01127e35.png',
-    width: 800,
-    height: 800,
+    width: 5268,
+    height: 5210,
     alt: 'Icône CHOCO LOUTI Blanc',
   },
   macroRose: {

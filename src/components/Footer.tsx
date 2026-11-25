@@ -1,13 +1,15 @@
 import { BrandLogo } from './BrandLogo';
+import { LanguageSwitcher } from './LanguageSwitcher';
 import { OrnamentDivider } from './OrnamentDivider';
 import { SocialMediaBar } from './SocialMediaBar';
 import { TRANSLATIONS, type Language } from '../utils/i18n';
 
 interface FooterProps {
   lang: Language;
+  setLang?: (lang: Language) => void;
 }
 
-export function Footer({ lang }: FooterProps) {
+export function Footer({ lang, setLang }: FooterProps) {
   const t = TRANSLATIONS[lang].footer;
   const navT = TRANSLATIONS[lang].nav;
 
@@ -35,8 +37,17 @@ export function Footer({ lang }: FooterProps) {
             <p className="text-sm leading-relaxed text-[#F3EBDD]/82 max-w-sm">
               {t.footerDesc}
             </p>
-            <div className="pt-2">
+            <div className="pt-2 flex flex-wrap items-center gap-4">
               <SocialMediaBar />
+              {setLang && (
+                <LanguageSwitcher
+                  lang={lang}
+                  onChange={setLang}
+                  surface="dark"
+                  size="expanded"
+                  showIcon
+                />
+              )}
             </div>
           </div>
 
@@ -76,10 +87,10 @@ export function Footer({ lang }: FooterProps) {
           </div>
         </div>
 
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#DCE4D9]/80">
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11.5px] sm:text-xs leading-relaxed text-[#DCE4D9]/80">
           <p>{t.allRights}</p>
           <OrnamentDivider tone="gold" align="center" className="hidden md:flex" />
-          <p className="tracking-[0.18em] uppercase text-[#C5A45A] text-center sm:text-right">
+          <p className="tracking-[0.12em] sm:tracking-[0.18em] uppercase text-[#C5A45A] text-center sm:text-end leading-relaxed">
             {t.footerArt}
           </p>
         </div>

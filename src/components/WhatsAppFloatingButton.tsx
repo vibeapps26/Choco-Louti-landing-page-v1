@@ -12,7 +12,7 @@ export function WhatsAppFloatingButton({ lang = 'fr' }: WhatsAppFloatingButtonPr
   const whatsappUrl = `https://wa.me/21623331098?text=${encodeURIComponent(message)}`;
 
   return (
-    <aside aria-label="Support WhatsApp" className="fixed bottom-6 right-6 z-50">
+    <aside aria-label="Support WhatsApp" className="fixed bottom-6 right-6 z-30">
       <a
         href={whatsappUrl}
         target="_blank"

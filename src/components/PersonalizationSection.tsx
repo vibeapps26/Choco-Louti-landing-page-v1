@@ -26,12 +26,12 @@ export function PersonalizationSection({
       <div className="mx-auto max-w-[1360px] px-4 sm:px-8">
         <ScrollReveal>
           <div className="max-w-3xl mx-auto text-center space-y-5">
-            <p className="text-xs font-medium tracking-[0.22em] uppercase text-[#C5A45A]">
+            <p className="text-[11px] sm:text-xs font-medium tracking-[0.16em] sm:tracking-[0.22em] uppercase text-[#C5A45A]">
               {t.eyebrow}
             </p>
             <h2
               id="personnalisation-heading"
-              className="font-editorial font-normal text-[#F3EBDD] text-[clamp(2rem,3.6vw,3.3rem)] leading-[1.12] text-balance"
+              className="font-editorial font-normal text-[#F3EBDD] text-[clamp(1.65rem,3.6vw,3.3rem)] leading-[1.2] sm:leading-[1.12] text-balance"
             >
               {t.title}
             </h2>
@@ -48,15 +48,15 @@ export function PersonalizationSection({
                 className="h-full border-t border-[#C5A45A]/55 pt-7 space-y-4"
               >
                 <div className="flex items-baseline justify-between">
-                  <span className="font-editorial italic text-4xl text-[#C5A45A] tabular-nums">
+                  <span className="font-editorial italic text-3xl sm:text-4xl text-[#C5A45A] tabular-nums">
                     {stage.number}
                   </span>
-                  <span className="h-px flex-1 ml-4 bg-[#F3EBDD]/15" aria-hidden="true" />
+                  <span className="h-px flex-1 ms-4 bg-[#F3EBDD]/15" aria-hidden="true" />
                 </div>
-                <h3 className="font-editorial text-2xl sm:text-[28px] text-[#F3EBDD]">
+                <h3 className="font-editorial text-xl sm:text-[28px] leading-[1.25] text-[#F3EBDD]">
                   {stage.title}
                 </h3>
-                <p className="text-sm sm:text-[15px] leading-[1.75] text-[#F3EBDD]/82">
+                <p className="text-[13.5px] sm:text-[15px] leading-[1.7] sm:leading-[1.75] text-[#F3EBDD]/82">
                   {stage.description}
                 </p>
               </div>
@@ -84,7 +84,7 @@ export function PersonalizationSection({
                       type="button"
                       onClick={() => onSelectOccasion(occasion)}
                       aria-pressed={active}
-                      className={`whitespace-nowrap shrink-0 px-3.5 py-2 text-xs tracking-[0.04em] border transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C5A45A] ${
+                      className={`whitespace-nowrap shrink-0 px-3 sm:px-3.5 py-2 text-[11.5px] sm:text-xs tracking-[0.03em] sm:tracking-[0.04em] border transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C5A45A] ${
                         active
                           ? 'bg-[#C5A45A] text-[#173D32] border-[#C5A45A] font-semibold'
                           : 'bg-transparent text-[#F3EBDD]/90 border-[#F3EBDD]/25 hover:border-[#C5A45A] hover:text-[#C5A45A]'

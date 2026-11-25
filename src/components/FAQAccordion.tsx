@@ -25,17 +25,17 @@ export function FAQAccordion({ lang }: FAQAccordionProps) {
         <ScrollReveal>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-10 border-b border-[#173D32]/15">
             <div className="space-y-3">
-              <p className="text-xs font-medium tracking-[0.22em] uppercase text-[#173D32]">
+              <p className="text-[11px] sm:text-xs font-medium tracking-[0.16em] sm:tracking-[0.22em] uppercase text-[#173D32]">
                 {t.eyebrow}
               </p>
               <h2
                 id="faq-heading"
-                className="font-editorial font-normal text-[#173D32] text-[clamp(2rem,3.4vw,3.15rem)] leading-[1.12] text-balance"
+                className="font-editorial font-normal text-[#173D32] text-[clamp(1.65rem,3.4vw,3.15rem)] leading-[1.2] sm:leading-[1.12] text-balance"
               >
                 {t.title}
               </h2>
             </div>
-            <p className="text-sm text-[#3B241D]/80 max-w-sm">
+            <p className="text-[13.5px] sm:text-sm leading-[1.65] text-[#3B241D]/80 max-w-sm">
               {t.desc}
             </p>
           </div>
@@ -57,13 +57,13 @@ export function FAQAccordion({ lang }: FAQAccordionProps) {
                       aria-expanded={isOpen}
                       aria-controls={panelId}
                       onClick={() => toggleItem(item.id)}
-                      className="w-full py-5 sm:py-6 flex items-center justify-between gap-6 text-left group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#173D32]"
+                      className="w-full py-5 sm:py-6 flex items-center justify-between gap-6 text-start group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#173D32]"
                     >
-                      <span className="flex items-baseline gap-4">
-                        <span className="font-editorial italic text-lg text-[#B9875B] tabular-nums shrink-0">
+                      <span className="flex items-baseline gap-3 sm:gap-4">
+                        <span className="font-editorial italic text-base sm:text-lg text-[#B9875B] tabular-nums shrink-0">
                           {String(idx + 1).padStart(2, '0')}
                         </span>
-                        <span className="font-editorial text-xl sm:text-2xl text-[#173D32] group-hover:text-[#3B241D] transition-colors">
+                        <span className="font-editorial text-[17px] sm:text-2xl leading-[1.4] sm:leading-snug text-[#173D32] group-hover:text-[#3B241D] transition-colors">
                           {item.question}
                         </span>
                       </span>
@@ -88,7 +88,7 @@ export function FAQAccordion({ lang }: FAQAccordionProps) {
                     className="accordion-panel"
                   >
                     <div className="accordion-inner">
-                      <p className="pb-6 pl-9 sm:pl-10 pr-4 max-w-3xl text-sm sm:text-base leading-[1.75] text-[#3B241D]/88">
+                      <p className="pb-6 ps-8 sm:ps-10 pe-2 sm:pe-4 max-w-3xl text-[13.5px] sm:text-base leading-[1.7] sm:leading-[1.75] text-[#3B241D]/88">
                         {item.answer}
                       </p>
                     </div>

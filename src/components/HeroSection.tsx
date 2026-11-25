@@ -72,14 +72,14 @@ export function HeroSection({ lang }: HeroSectionProps) {
           >
             <div className="flex items-center gap-3">
               <span className="h-px w-7 sm:w-8 bg-[#C5A45A]" aria-hidden="true" />
-              <p className="text-[11px] sm:text-xs font-medium tracking-[0.22em] uppercase text-[#C5A45A]">
+              <p className="text-[11px] sm:text-xs font-medium tracking-[0.16em] sm:tracking-[0.22em] uppercase text-[#C5A45A] leading-snug">
                 {t.eyebrow}
               </p>
             </div>
 
             <h1
               id="hero-heading"
-              className="font-editorial font-normal text-[#F3EBDD] text-[clamp(2.15rem,4.3vw,4.15rem)] leading-[1.05] tracking-[-0.015em] text-balance"
+              className="font-editorial font-normal text-[#F3EBDD] text-[clamp(1.85rem,4.3vw,4.15rem)] leading-[1.15] sm:leading-[1.05] tracking-[-0.015em] text-balance"
             >
               {t.titlePart1}
               <span className="italic text-[#C5A45A]">{t.titleAccent}</span>
@@ -109,7 +109,7 @@ export function HeroSection({ lang }: HeroSectionProps) {
                 </div>
 
                 <div className="pt-2.5 sm:pt-3.5 pb-0.5 px-1 flex items-center justify-between gap-4 text-[#3B241D]">
-                  <span className="font-editorial italic text-sm sm:text-lg">
+                  <span className="font-editorial italic text-[13px] sm:text-lg leading-snug">
                     {t.boxCaption}
                   </span>
                   <OrnamentDivider tone="gold" align="left" className="hidden sm:flex" />
@@ -138,7 +138,7 @@ export function HeroSection({ lang }: HeroSectionProps) {
             delayMs={150}
             className="lg:col-span-5 lg:col-start-1 lg:row-start-2 lg:self-start space-y-5 sm:space-y-6 lg:pr-2"
           >
-            <p className="max-w-lg text-[15px] sm:text-[17px] leading-[1.65] sm:leading-[1.7] text-[#F3EBDD]/88 font-normal">
+            <p className="max-w-lg text-[14.5px] sm:text-[17px] leading-[1.7] text-[#F3EBDD]/88 font-normal">
               {t.description}
             </p>
 
@@ -159,7 +159,7 @@ export function HeroSection({ lang }: HeroSectionProps) {
               </a>
             </div>
 
-            <p className="pt-3.5 border-t border-[#C5A45A]/25 text-[11px] sm:text-xs text-[#DCE4D9]/85 tracking-[0.05em] leading-relaxed">
+            <p className="pt-3.5 border-t border-[#C5A45A]/25 text-[11.5px] sm:text-xs text-[#DCE4D9]/85 tracking-[0.04em] sm:tracking-[0.05em] leading-[1.65]">
               {t.features}
             </p>
           </ScrollReveal>

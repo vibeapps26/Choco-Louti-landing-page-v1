@@ -39,18 +39,18 @@ export function TestimonialsSection({ lang }: TestimonialsSectionProps) {
     >
       <div className="mx-auto max-w-[1200px] px-4 sm:px-8">
         <ScrollReveal>
-          <div className="text-center max-w-2xl mx-auto space-y-4 mb-16">
-            <p className="text-xs font-medium tracking-[0.22em] uppercase text-[#C5A45A]">
+          <div className="text-center max-w-2xl mx-auto space-y-4 mb-12 sm:mb-16">
+            <p className="text-[11px] sm:text-xs font-medium tracking-[0.16em] sm:tracking-[0.22em] uppercase text-[#C5A45A]">
               {t.eyebrow}
             </p>
             <h2
               id="testimonials-heading"
-              className="font-editorial font-normal text-[#F3EBDD] text-[clamp(2rem,3.5vw,3.2rem)] leading-[1.15] text-balance"
+              className="font-editorial font-normal text-[#F3EBDD] text-[clamp(1.65rem,3.5vw,3.2rem)] leading-[1.2] sm:leading-[1.15] text-balance"
             >
               {t.title}
             </h2>
             <OrnamentDivider tone="gold" align="center" className="pt-2" />
-            <p className="text-sm sm:text-base text-[#F3EBDD]/80 leading-relaxed pt-2">
+            <p className="text-[13.5px] sm:text-base text-[#F3EBDD]/80 leading-[1.65] pt-2">
               {t.desc}
             </p>
           </div>
@@ -58,7 +58,7 @@ export function TestimonialsSection({ lang }: TestimonialsSectionProps) {
 
         {/* Carousel card with shadow-lift on hover */}
         <ScrollReveal delayMs={100}>
-          <div className="relative bg-[#3B241D]/90 border border-[#C5A45A]/45 p-8 sm:p-12 lg:p-16 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.5)] hover:-translate-y-1 hover:shadow-[0_30px_70px_-15px_rgba(197,164,90,0.3)] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">
+          <div className="relative bg-[#3B241D]/90 border border-[#C5A45A]/45 p-6 sm:p-12 lg:p-16 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.5)] hover:-translate-y-1 hover:shadow-[0_30px_70px_-15px_rgba(197,164,90,0.3)] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]">
             <div className="absolute top-6 right-8 text-[#C5A45A]/20 pointer-events-none" aria-hidden="true">
               <Quote className="w-20 h-20 sm:w-28 sm:h-28" />
             </div>
@@ -70,15 +70,15 @@ export function TestimonialsSection({ lang }: TestimonialsSectionProps) {
                 ))}
               </div>
 
-              <blockquote className="font-editorial italic text-xl sm:text-2xl lg:text-3xl leading-[1.5] text-[#F3EBDD] text-balance">
+              <blockquote className="font-editorial italic text-lg sm:text-2xl lg:text-3xl leading-[1.6] sm:leading-[1.5] text-[#F3EBDD] text-balance">
                 « {current.quote} »
               </blockquote>
 
               <div className="space-y-1 pt-2">
-                <p className="font-editorial text-xl sm:text-2xl text-[#C5A45A]">
+                <p className="font-editorial text-lg sm:text-2xl leading-snug text-[#C5A45A]">
                   {current.author}
                 </p>
-                <p className="text-xs tracking-[0.16em] uppercase text-[#DCE4D9]/80">
+                <p className="text-[11px] sm:text-xs tracking-[0.12em] sm:tracking-[0.16em] uppercase text-[#DCE4D9]/80">
                   {current.occasion}
                 </p>
               </div>

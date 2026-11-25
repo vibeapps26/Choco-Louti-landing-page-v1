@@ -23,12 +23,12 @@ export function ProductDetailSection({ lang }: ProductDetailSectionProps) {
           <div className="lg:col-span-6 space-y-7 sm:space-y-8">
             <ScrollReveal className="space-y-6">
               <div className="space-y-4">
-                <p className="text-xs font-medium tracking-[0.22em] uppercase text-[#C5A45A]">
+                <p className="text-[11px] sm:text-xs font-medium tracking-[0.16em] sm:tracking-[0.22em] uppercase text-[#C5A45A]">
                   {t.eyebrow}
                 </p>
                 <h2
                   id="detail-heading"
-                  className="font-editorial font-normal text-[#F3EBDD] text-[clamp(2rem,3.4vw,3.15rem)] leading-[1.12] text-balance"
+                  className="font-editorial font-normal text-[#F3EBDD] text-[clamp(1.65rem,3.4vw,3.15rem)] leading-[1.2] sm:leading-[1.12] text-balance"
                 >
                   {t.title}
                 </h2>
@@ -36,7 +36,7 @@ export function ProductDetailSection({ lang }: ProductDetailSectionProps) {
 
               <OrnamentDivider tone="gold" align="left" />
 
-              <p className="text-base sm:text-[17px] leading-[1.75] text-[#F3EBDD]/85 max-w-xl">
+              <p className="text-[14.5px] sm:text-[17px] leading-[1.7] sm:leading-[1.75] text-[#F3EBDD]/85 max-w-xl">
                 {t.body}
               </p>
             </ScrollReveal>
@@ -44,15 +44,15 @@ export function ProductDetailSection({ lang }: ProductDetailSectionProps) {
             <ScrollReveal delayMs={100}>
               <div className="divide-y divide-[#C5A45A]/25 border-t border-b border-[#C5A45A]/25">
                 {t.notes.map((item) => (
-                  <div key={item.index} className="py-5 flex items-start gap-5">
-                    <span className="font-editorial italic text-xl text-[#C5A45A] tabular-nums shrink-0 pt-0.5">
+                  <div key={item.index} className="py-5 flex items-start gap-4 sm:gap-5">
+                    <span className="font-editorial italic text-lg sm:text-xl text-[#C5A45A] tabular-nums shrink-0 pt-0.5">
                       {item.index}
                     </span>
                     <div className="space-y-1">
-                      <h3 className="font-editorial text-xl text-[#F3EBDD]">
+                      <h3 className="font-editorial text-lg sm:text-xl leading-snug text-[#F3EBDD]">
                         {item.title}
                       </h3>
-                      <p className="text-sm leading-relaxed text-[#F3EBDD]/78">
+                      <p className="text-[13.5px] sm:text-sm leading-[1.65] text-[#F3EBDD]/78">
                         {item.description}
                       </p>
                     </div>
@@ -76,7 +76,7 @@ export function ProductDetailSection({ lang }: ProductDetailSectionProps) {
                     fallbackLabel={t.macroHeader}
                   />
                 </div>
-                <p className="pt-3.5 pb-1 px-1 text-xs tracking-[0.12em] uppercase text-[#C5A45A] flex items-center justify-between gap-4">
+                <p className="pt-3.5 pb-1 px-1 text-[11px] sm:text-xs tracking-[0.08em] sm:tracking-[0.12em] uppercase text-[#C5A45A] flex flex-wrap items-center justify-between gap-2 sm:gap-4 leading-snug">
                   <span>{t.macroHeader}</span>
                   <span className="text-[#F3EBDD]/70">{t.macroSub}</span>
                 </p>

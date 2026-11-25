@@ -61,12 +61,12 @@ export function MaisonSection({ lang }: MaisonSectionProps) {
             {/* Block 2: Editorial Maison statement */}
             <ScrollReveal delayMs={0} className="space-y-5 sm:space-y-6">
               <div className="space-y-3">
-                <p className="text-xs font-medium tracking-[0.22em] uppercase text-[#173D32]">
+                <p className="text-[11px] sm:text-xs font-medium tracking-[0.16em] sm:tracking-[0.22em] uppercase text-[#173D32]">
                   {t.eyebrow}
                 </p>
                 <h2
                   id="maison-heading"
-                  className="font-editorial font-normal text-[#173D32] text-[clamp(1.95rem,3.4vw,3.1rem)] leading-[1.12] text-balance"
+                  className="font-editorial font-normal text-[#173D32] text-[clamp(1.65rem,3.4vw,3.1rem)] leading-[1.2] sm:leading-[1.12] text-balance"
                 >
                   {t.title}
                 </h2>
@@ -74,7 +74,7 @@ export function MaisonSection({ lang }: MaisonSectionProps) {
 
               <OrnamentDivider tone="gold" align="left" />
 
-              <p className="max-w-2xl text-[15px] sm:text-[17px] leading-[1.7] text-[#3B241D]/90">
+              <p className="max-w-2xl text-[14.5px] sm:text-[17px] leading-[1.7] text-[#3B241D]/90">
                 {t.body}
               </p>
             </ScrollReveal>
@@ -93,11 +93,11 @@ export function MaisonSection({ lang }: MaisonSectionProps) {
                     <span className="font-editorial italic text-base text-[#B9875B] tabular-nums">
                       {pillar.index}
                     </span>
-                    <h3 className="font-editorial text-xl text-[#173D32]">
+                    <h3 className="font-editorial text-lg sm:text-xl leading-snug text-[#173D32]">
                       {pillar.title}
                     </h3>
                   </div>
-                  <p className="mt-1.5 text-sm leading-relaxed text-[#3B241D]/80">
+                  <p className="mt-1.5 text-[13.5px] sm:text-sm leading-[1.65] text-[#3B241D]/80">
                     {pillar.description}
                   </p>
                 </div>

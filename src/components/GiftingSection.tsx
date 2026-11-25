@@ -31,16 +31,16 @@ export function GiftingSection({
           <div className="lg:col-span-5 lg:sticky lg:top-28">
             <ScrollReveal>
               <div className="space-y-4 mb-8">
-                <p className="text-xs font-medium tracking-[0.22em] uppercase text-[#173D32]">
+                <p className="text-[11px] sm:text-xs font-medium tracking-[0.16em] sm:tracking-[0.22em] uppercase text-[#173D32]">
                   {t.eyebrow}
                 </p>
                 <h2
                   id="occasions-heading"
-                  className="font-editorial font-normal text-[#173D32] text-[clamp(2rem,3.4vw,3.15rem)] leading-[1.12] text-balance"
+                  className="font-editorial font-normal text-[#173D32] text-[clamp(1.65rem,3.4vw,3.15rem)] leading-[1.2] sm:leading-[1.12] text-balance"
                 >
                   {t.title}
                 </h2>
-                <p className="text-base leading-relaxed text-[#3B241D]/85 max-w-md">
+                <p className="text-[14.5px] sm:text-base leading-[1.7] text-[#3B241D]/85 max-w-md">
                   {t.desc}
                 </p>
               </div>
@@ -80,11 +80,11 @@ export function GiftingSection({
                           <span className="font-editorial italic text-lg text-[#B9875B] tabular-nums">
                             {String(idx + 1).padStart(2, '0')}
                           </span>
-                          <h3 className="font-editorial text-2xl sm:text-[26px] text-[#173D32]">
+                          <h3 className="font-editorial text-xl sm:text-[26px] leading-[1.25] text-[#173D32]">
                             {occasion}
                           </h3>
                         </div>
-                        <p className="text-sm sm:text-[15px] leading-relaxed text-[#3B241D]/82 pl-7">
+                        <p className="text-[13.5px] sm:text-[15px] leading-[1.65] text-[#3B241D]/82 ps-7">
                           {occasionNotes[occasion]}
                         </p>
                       </div>

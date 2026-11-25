@@ -31,7 +31,7 @@ export function CookieBanner({ lang }: CookieBannerProps) {
   return (
     <aside
       aria-label="Consentement aux cookies"
-      className="fixed bottom-0 left-0 right-0 z-50 bg-[#173D32] text-[#F3EBDD] border-t border-[#C5A45A]/40 shadow-[0_-10px_30px_rgba(0,0,0,0.3)] p-4 sm:p-5"
+      className="fixed bottom-0 left-0 right-0 z-40 bg-[#173D32] text-[#F3EBDD] border-t border-[#C5A45A]/40 shadow-[0_-10px_30px_rgba(0,0,0,0.3)] p-4 sm:p-5"
     >
       <div className="mx-auto max-w-[1360px] flex flex-col sm:flex-row items-center justify-between gap-4 px-4">
         <div className="flex items-center gap-3 text-xs sm:text-sm leading-relaxed text-[#F3EBDD]/90">

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { BrandStatement } from './components/BrandStatement';
 import { ContactSection } from './components/ContactSection';
 import { CreationGallery } from './components/CreationGallery';
@@ -18,7 +18,19 @@ import { PageSkeleton } from './components/PageSkeleton';
 import { WhatsAppFloatingButton } from './components/WhatsAppFloatingButton';
 import { ScrollProgress } from './components/ScrollProgress';
 import { BackToTopButton } from './components/BackToTopButton';
+import { SectionDivider } from './components/SectionDivider';
+import { BRAND_ASSETS } from './tokens/brand';
+import { useImagePreloader } from './hooks/useImagePreloader';
 import { OCCASIONS_MAP, type Language } from './utils/i18n';
+import { mapOccasionAcrossLanguages } from './utils/languageSwitcher';
+
+const CRITICAL_PRELOAD_IMAGES: readonly string[] = [
+  BRAND_ASSETS.logo.src,
+  BRAND_ASSETS.logoDarkGold.src,
+  BRAND_ASSETS.signatureGiftbox.src,
+  BRAND_ASSETS.macroRose.src,
+  BRAND_ASSETS.architecturalBlooms.src,
+];
 
 const SECTION_SEO: Record<Language, Record<string, { title: string; desc: string }>> = {
   fr: {
@@ -92,17 +104,25 @@ const SECTION_SEO: Record<Language, Record<string, { title: string; desc: string
 };
 
 export default function App() {
-  const [loading, setLoading] = useState(true);
+  const { isReady } = useImagePreloader(CRITICAL_PRELOAD_IMAGES, {
+    timeoutMs: 1400,
+    minimumDelayMs: 160,
+  });
+  const loading = !isReady;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [lang, setLang] = useState<Language>('fr');
   const [selectedOccasion, setSelectedOccasion] = useState<string>(OCCASIONS_MAP.fr[0]);
   const [activeSection, setActiveSection] = useState<string>('accueil');
+  const [langTransitionKey, setLangTransitionKey] = useState(0);
+  const langTransitionTimerRef = useRef<number | null>(null);
+  const [isLangTransitioning, setIsLangTransitioning] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 320);
-    return () => clearTimeout(timer);
+    return () => {
+      if (langTransitionTimerRef.current !== null) {
+        window.clearTimeout(langTransitionTimerRef.current);
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -151,15 +171,21 @@ export default function App() {
   }, [lang, activeSection]);
 
   const handleSelectLang = (newLang: Language) => {
-    setLang(newLang);
-    const oldOccasions = OCCASIONS_MAP[lang];
-    const idx = oldOccasions.indexOf(selectedOccasion);
-    const newOccasions = OCCASIONS_MAP[newLang];
-    if (idx !== -1 && newOccasions[idx]) {
-      setSelectedOccasion(newOccasions[idx]);
-    } else {
-      setSelectedOccasion(newOccasions[0]);
+    if (newLang === lang) return;
+
+    if (langTransitionTimerRef.current !== null) {
+      window.clearTimeout(langTransitionTimerRef.current);
     }
+
+    setIsLangTransitioning(true);
+    setLangTransitionKey((prev) => prev + 1);
+    setSelectedOccasion((prev) => mapOccasionAcrossLanguages(prev, lang, newLang));
+    setLang(newLang);
+
+    langTransitionTimerRef.current = window.setTimeout(() => {
+      setIsLangTransitioning(false);
+      langTransitionTimerRef.current = null;
+    }, 400);
   };
 
   if (loading) {
@@ -167,7 +193,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F3EBDD] text-[#3B241D]">
+    <div className="min-h-screen flex flex-col bg-[#F3EBDD] text-[#3B241D] overflow-x-clip">
       <ScrollProgress />
 
       <a
@@ -192,25 +218,39 @@ export default function App() {
         setLang={handleSelectLang}
       />
 
-      <main id="contenu-principal" className="flex-1">
+      <main
+        id="contenu-principal"
+        data-lang-transition={langTransitionKey}
+        className={`flex-1 ${isLangTransitioning ? 'lang-content-switching' : ''}`}
+      >
         <HeroSection lang={lang} />
+        <SectionDivider surface="ivory" />
         <MaisonSection lang={lang} />
+        <SectionDivider surface="ivory" />
         <CreationGallery lang={lang} />
+        <SectionDivider surface="ivory" />
         <ProductDetailSection lang={lang} />
+        <SectionDivider surface="ivory" />
         <GiftingSection
           selectedOccasion={selectedOccasion}
           onSelectOccasion={setSelectedOccasion}
           lang={lang}
         />
+        <SectionDivider surface="ivory" />
         <PersonalizationSection
           selectedOccasion={selectedOccasion}
           onSelectOccasion={setSelectedOccasion}
           lang={lang}
         />
+        <SectionDivider surface="green" />
         <TestimonialsSection lang={lang} />
+        <SectionDivider surface="sage" />
         <NewsletterSignup lang={lang} />
+        <SectionDivider surface="ivory" />
         <BrandStatement lang={lang} />
+        <SectionDivider surface="sage" />
         <FAQAccordion lang={lang} />
+        <SectionDivider surface="ivory" />
         <ContactSection
           selectedOccasion={selectedOccasion}
           onSelectOccasion={setSelectedOccasion}
@@ -218,7 +258,7 @@ export default function App() {
         />
       </main>
 
-      <Footer lang={lang} />
+      <Footer lang={lang} setLang={handleSelectLang} />
 
       <BackToTopButton lang={lang} />
       <WhatsAppFloatingButton lang={lang} />

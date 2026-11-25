@@ -41,21 +41,21 @@ export function NewsletterSignup({ lang }: NewsletterSignupProps) {
       className="bg-[#DCE4D9]/40 text-[#3B241D] py-16 sm:py-24 border-b border-[#173D32]/10"
     >
       <div className="mx-auto max-w-[900px] px-4 sm:px-8">
-        <ScrollReveal className="bg-[#F3EBDD] border border-[#C5A45A]/45 p-8 sm:p-14 shadow-[0_20px_50px_-20px_rgba(23,61,50,0.2)] text-center space-y-6">
+        <ScrollReveal className="bg-[#F3EBDD] border border-[#C5A45A]/45 p-6 sm:p-14 shadow-[0_20px_50px_-20px_rgba(23,61,50,0.2)] text-center space-y-6">
           <div className="space-y-3">
-            <p className="text-xs font-medium tracking-[0.22em] uppercase text-[#173D32]">
+            <p className="text-[11px] sm:text-xs font-medium tracking-[0.16em] sm:tracking-[0.22em] uppercase text-[#173D32]">
               {t.eyebrow}
             </p>
             <h2
               id="newsletter-heading"
-              className="font-editorial font-normal text-[#173D32] text-[clamp(1.9rem,3.2vw,2.9rem)] leading-[1.15]"
+              className="font-editorial font-normal text-[#173D32] text-[clamp(1.6rem,3.2vw,2.9rem)] leading-[1.2] sm:leading-[1.15] text-balance"
             >
               {t.title}
             </h2>
             <OrnamentDivider tone="gold" align="center" />
           </div>
 
-          <p className="text-sm sm:text-base text-[#3B241D]/80 max-w-lg mx-auto leading-relaxed">
+          <p className="text-[13.5px] sm:text-base text-[#3B241D]/80 max-w-lg mx-auto leading-[1.65]">
             {t.desc}
           </p>
 
