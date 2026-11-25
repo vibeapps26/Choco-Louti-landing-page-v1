@@ -1,10 +1,15 @@
 import { useState } from 'react';
 import { Plus, Minus } from 'lucide-react';
-import { VERIFIED_FAQ } from '../tokens/brand';
 import { ScrollReveal } from './ScrollReveal';
+import { TRANSLATIONS, type Language } from '../utils/i18n';
 
-export function FAQAccordion() {
-  const [openId, setOpenId] = useState<string | null>(VERIFIED_FAQ[0].id);
+interface FAQAccordionProps {
+  lang: Language;
+}
+
+export function FAQAccordion({ lang }: FAQAccordionProps) {
+  const t = TRANSLATIONS[lang].faq;
+  const [openId, setOpenId] = useState<string | null>(t.items[0]?.id || null);
 
   const toggleItem = (id: string) => {
     setOpenId((prev) => (prev === id ? null : id));
@@ -21,25 +26,24 @@ export function FAQAccordion() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-10 border-b border-[#173D32]/15">
             <div className="space-y-3">
               <p className="text-xs font-medium tracking-[0.22em] uppercase text-[#173D32]">
-                Foire aux questions
+                {t.eyebrow}
               </p>
               <h2
                 id="faq-heading"
                 className="font-editorial font-normal text-[#173D32] text-[clamp(2rem,3.4vw,3.15rem)] leading-[1.12] text-balance"
               >
-                Vos questions, nos réponses.
+                {t.title}
               </h2>
             </div>
             <p className="text-sm text-[#3B241D]/80 max-w-sm">
-              Pour toute demande spécifique, notre espace de contact vous permet
-              de préparer votre projet.
+              {t.desc}
             </p>
           </div>
         </ScrollReveal>
 
         <ScrollReveal delayMs={90}>
           <div className="divide-y divide-[#173D32]/15 border-b border-[#173D32]/15">
-            {VERIFIED_FAQ.map((item, idx) => {
+            {t.items.map((item, idx) => {
               const isOpen = openId === item.id;
               const panelId = `faq-panel-${item.id}`;
               const buttonId = `faq-button-${item.id}`;

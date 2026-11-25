@@ -1,22 +1,24 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
-import { Check, Copy, Info } from 'lucide-react';
+import { Check, Copy, MessageCircle, Info } from 'lucide-react';
 import {
-  OCCASIONS,
-  buildInquirySummary,
+  buildWhatsAppMessage,
   validateContactForm,
   type ContactFormData,
 } from '../utils/chocoLogic';
 import { OrnamentDivider } from './OrnamentDivider';
 import { ScrollReveal } from './ScrollReveal';
+import { OCCASIONS_MAP, TRANSLATIONS, type Language } from '../utils/i18n';
 
 interface ContactSectionProps {
   selectedOccasion: string;
   onSelectOccasion: (occasion: string) => void;
+  lang: Language;
 }
 
 export function ContactSection({
   selectedOccasion,
   onSelectOccasion,
+  lang,
 }: ContactSectionProps) {
   const nameInputRef = useRef<HTMLInputElement | null>(null);
   const [name, setName] = useState('');
@@ -25,12 +27,14 @@ export function ContactSection({
   const [errors, setErrors] = useState<
     Partial<Record<keyof ContactFormData, string>>
   >({});
-  const [preparedSummary, setPreparedSummary] = useState<string | null>(null);
+  const [validatedData, setValidatedData] = useState<ContactFormData | null>(null);
   const [copied, setCopied] = useState(false);
+  const t = TRANSLATIONS[lang].contact;
+  const occasions = OCCASIONS_MAP[lang];
 
   useEffect(() => {
     setCopied(false);
-  }, [preparedSummary]);
+  }, [validatedData]);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -41,28 +45,33 @@ export function ContactSection({
       message,
     };
 
-    const result = validateContactForm(formData);
+    const result = validateContactForm(formData, lang);
     setErrors(result.errors);
 
     if (!result.isValid) {
-      setPreparedSummary(null);
+      setValidatedData(null);
       return;
     }
 
-    // Transparently inform the visitor that backend transmission is not yet wired,
-    // without displaying a false "message sent" confirmation.
-    setPreparedSummary(buildInquirySummary(formData));
+    setValidatedData(formData);
   };
 
   const handleCopySummary = async () => {
-    if (!preparedSummary || !navigator.clipboard) return;
+    if (!validatedData || !navigator.clipboard) return;
     try {
-      await navigator.clipboard.writeText(preparedSummary);
+      const summary = buildWhatsAppMessage(validatedData);
+      await navigator.clipboard.writeText(summary);
       setCopied(true);
     } catch {
       setCopied(false);
     }
   };
+
+  const whatsappUrl = validatedData
+    ? `https://wa.me/21623331098?text=${encodeURIComponent(
+        buildWhatsAppMessage(validatedData)
+      )}`
+    : '#';
 
   return (
     <section
@@ -76,21 +85,20 @@ export function ContactSection({
           <ScrollReveal className="lg:col-span-5 space-y-7">
             <div className="space-y-4">
               <p className="text-xs font-medium tracking-[0.22em] uppercase text-[#173D32]">
-                Contact &amp; Sur-Mesure
+                {t.eyebrow}
               </p>
               <h2
                 id="contact-heading"
                 className="font-editorial font-normal text-[#173D32] text-[clamp(2rem,3.4vw,3.15rem)] leading-[1.12] text-balance"
               >
-                Imaginons votre prochaine création.
+                {t.title}
               </h2>
             </div>
 
             <OrnamentDivider tone="gold" align="left" />
 
             <p className="text-base sm:text-[17px] leading-[1.75] text-[#3B241D]/88">
-              Partagez votre occasion, votre inspiration ou simplement une
-              idée. Entrons en contact pour imaginer votre création.
+              {t.desc}
             </p>
 
             <div className="flex flex-wrap items-center gap-4 pt-2">
@@ -99,29 +107,29 @@ export function ContactSection({
                 onClick={() => nameInputRef.current?.focus()}
                 className="inline-flex items-center justify-center whitespace-nowrap shrink-0 bg-[#173D32] text-[#F3EBDD] hover:bg-[#3B241D] px-7 py-3.5 text-xs font-semibold tracking-[0.11em] uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C5A45A]"
               >
-                Nous contacter
+                {t.weContact}
               </button>
               <a
                 href="#creations"
                 className="inline-flex items-center justify-center whitespace-nowrap shrink-0 border border-[#173D32]/35 text-[#173D32] hover:border-[#173D32] hover:bg-[#173D32]/5 px-6 py-3.5 text-xs font-medium tracking-[0.11em] uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#173D32]"
               >
-                Découvrir les créations
+                {TRANSLATIONS[lang].hero.discoverCreations}
               </a>
             </div>
 
             <div className="pt-6 border-t border-[#173D32]/15 text-xs leading-relaxed text-[#3B241D]/75 space-y-1.5">
               <p className="font-medium uppercase tracking-[0.14em] text-[#173D32]">
-                Information d’intégration
+                {lang === 'ar' ? 'التواصل المباشر عبر واتساب' : 'Contact Direct WhatsApp'}
               </p>
               <p>
-                Les coordonnées directes de la Maison et l’envoi automatisé de
-                ce formulaire seront activés dès le raccordement du service de
-                messagerie.
+                {lang === 'ar'
+                  ? 'يمكنكم إرسال استفساراتكم مباشرة عبر رقم الواتساب الخاص بالدار: +216 23331098'
+                  : 'Vous pouvez joindre directement la Maison par WhatsApp au +216 23331098 pour un échange personnalisé.'}
               </p>
             </div>
           </ScrollReveal>
 
-          {/* Honest, validated bespoke inquiry form */}
+          {/* Validated bespoke inquiry form */}
           <ScrollReveal delayMs={100} className="lg:col-span-7">
             <div className="bg-[#F3EBDD] border border-[#173D32]/20 p-6 sm:p-10 shadow-[0_20px_50px_-28px_rgba(23,61,50,0.2)]">
                 <form onSubmit={handleSubmit} noValidate className="space-y-6">
@@ -131,7 +139,7 @@ export function ContactSection({
                         htmlFor="contact-name"
                         className="block text-xs font-medium tracking-[0.14em] uppercase text-[#173D32] mb-2"
                       >
-                        Nom
+                        {t.name}
                       </label>
                       <input
                         ref={nameInputRef}
@@ -148,14 +156,18 @@ export function ContactSection({
                         }}
                         aria-invalid={Boolean(errors.name)}
                         aria-describedby={errors.name ? 'error-name' : undefined}
-                        placeholder="Votre nom ou prénom"
-                        className="w-full bg-transparent border border-[#173D32]/30 focus:border-[#173D32] px-4 py-3 text-sm text-[#3B241D] placeholder:text-[#3B241D]/45 focus:outline-none transition-colors"
+                        placeholder={t.namePlaceholder}
+                        className={`w-full bg-transparent border px-4 py-3 text-sm text-[#3B241D] placeholder:text-[#3B241D]/45 focus:outline-none transition-colors ${
+                          errors.name
+                            ? 'border-red-600 bg-red-50/30'
+                            : 'border-[#173D32]/30 focus:border-[#173D32]'
+                        }`}
                       />
                       {errors.name && (
                         <p
                           id="error-name"
                           role="alert"
-                          className="mt-1.5 text-xs text-[#3B241D] font-medium"
+                          className="mt-1.5 text-xs text-red-700 font-medium"
                         >
                           {errors.name}
                         </p>
@@ -167,7 +179,7 @@ export function ContactSection({
                         htmlFor="contact-channel"
                         className="block text-xs font-medium tracking-[0.14em] uppercase text-[#173D32] mb-2"
                       >
-                        E-mail ou téléphone
+                        {t.channel}
                       </label>
                       <input
                         id="contact-channel"
@@ -187,14 +199,18 @@ export function ContactSection({
                         aria-describedby={
                           errors.contact ? 'error-contact' : undefined
                         }
-                        placeholder="vous@exemple.fr ou 06 00 00 00 00"
-                        className="w-full bg-transparent border border-[#173D32]/30 focus:border-[#173D32] px-4 py-3 text-sm text-[#3B241D] placeholder:text-[#3B241D]/45 focus:outline-none transition-colors"
+                        placeholder={t.channelPlaceholder}
+                        className={`w-full bg-transparent border px-4 py-3 text-sm text-[#3B241D] placeholder:text-[#3B241D]/45 focus:outline-none transition-colors ${
+                          errors.contact
+                            ? 'border-red-600 bg-red-50/30'
+                            : 'border-[#173D32]/30 focus:border-[#173D32]'
+                        }`}
                       />
                       {errors.contact && (
                         <p
                           id="error-contact"
                           role="alert"
-                          className="mt-1.5 text-xs text-[#3B241D] font-medium"
+                          className="mt-1.5 text-xs text-red-700 font-medium"
                         >
                           {errors.contact}
                         </p>
@@ -207,7 +223,7 @@ export function ContactSection({
                       htmlFor="contact-occasion"
                       className="block text-xs font-medium tracking-[0.14em] uppercase text-[#173D32] mb-2"
                     >
-                      Occasion
+                      {t.occasionLabel}
                     </label>
                     <select
                       id="contact-occasion"
@@ -226,10 +242,14 @@ export function ContactSection({
                       aria-describedby={
                         errors.occasion ? 'error-occasion' : undefined
                       }
-                      className="w-full bg-[#F3EBDD] border border-[#173D32]/30 focus:border-[#173D32] px-4 py-3 text-sm text-[#3B241D] focus:outline-none transition-colors"
+                      className={`w-full bg-[#F3EBDD] border px-4 py-3 text-sm text-[#3B241D] focus:outline-none transition-colors ${
+                        errors.occasion
+                          ? 'border-red-600 bg-red-50/30'
+                          : 'border-[#173D32]/30 focus:border-[#173D32]'
+                      }`}
                     >
-                      <option value="">Sélectionner une occasion</option>
-                      {OCCASIONS.map((occasion) => (
+                      <option value="">{t.selectOccasionPlaceholder}</option>
+                      {occasions.map((occasion) => (
                         <option key={occasion} value={occasion}>
                           {occasion}
                         </option>
@@ -239,7 +259,7 @@ export function ContactSection({
                       <p
                         id="error-occasion"
                         role="alert"
-                        className="mt-1.5 text-xs text-[#3B241D] font-medium"
+                        className="mt-1.5 text-xs text-red-700 font-medium"
                       >
                         {errors.occasion}
                       </p>
@@ -251,7 +271,7 @@ export function ContactSection({
                       htmlFor="contact-message"
                       className="block text-xs font-medium tracking-[0.14em] uppercase text-[#173D32] mb-2"
                     >
-                      Message
+                      {t.message}
                     </label>
                     <textarea
                       id="contact-message"
@@ -271,14 +291,18 @@ export function ContactSection({
                       aria-describedby={
                         errors.message ? 'error-message' : undefined
                       }
-                      placeholder="Décrivez votre occasion, vos envies ou le style de création souhaité..."
-                      className="w-full bg-transparent border border-[#173D32]/30 focus:border-[#173D32] px-4 py-3 text-sm text-[#3B241D] placeholder:text-[#3B241D]/45 focus:outline-none transition-colors resize-y"
+                      placeholder={t.messagePlaceholder}
+                      className={`w-full bg-transparent border px-4 py-3 text-sm text-[#3B241D] placeholder:text-[#3B241D]/45 focus:outline-none transition-colors resize-y ${
+                        errors.message
+                          ? 'border-red-600 bg-red-50/30'
+                          : 'border-[#173D32]/30 focus:border-[#173D32]'
+                      }`}
                     />
                     {errors.message && (
                       <p
                         id="error-message"
                         role="alert"
-                        className="mt-1.5 text-xs text-[#3B241D] font-medium"
+                        className="mt-1.5 text-xs text-red-700 font-medium"
                       >
                         {errors.message}
                       </p>
@@ -290,19 +314,19 @@ export function ContactSection({
                       type="submit"
                       className="inline-flex items-center justify-center whitespace-nowrap shrink-0 bg-[#173D32] text-[#F3EBDD] hover:bg-[#3B241D] px-8 py-3.5 text-xs font-semibold tracking-[0.12em] uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C5A45A]"
                     >
-                      Préparer ma demande
+                      {lang === 'ar' ? 'تجهيز الرسالة للواتساب' : 'Préparer la demande WhatsApp'}
                     </button>
                     <span className="text-xs text-[#3B241D]/65">
-                      Validation locale active · Envoi serveur à connecter
+                      {lang === 'ar' ? 'واتساب: +216 23331098' : 'WhatsApp direct : +216 23331098'}
                     </span>
                   </div>
                 </form>
 
-                {preparedSummary && (
+                {validatedData && (
                   <div
                     role="status"
                     aria-live="polite"
-                    className="mt-8 border border-[#C5A45A] bg-[#DCE4D9]/55 p-5 space-y-4"
+                    className="mt-8 border border-[#25D366] bg-[#DCE4D9]/55 p-6 space-y-5 shadow-lg"
                   >
                     <div className="flex items-start gap-3">
                       <Info
@@ -311,38 +335,51 @@ export function ContactSection({
                       />
                       <div className="space-y-1">
                         <p className="text-sm font-semibold text-[#173D32]">
-                          Formulaire nécessitant une intégration serveur
+                          {lang === 'ar' ? 'طلبك جاهز للإرسال عبر واتساب' : 'Votre demande est prête à être envoyée sur WhatsApp'}
                         </p>
                         <p className="text-xs leading-relaxed text-[#3B241D]/85">
-                          Aucun service d’envoi n’est encore raccordé à cette
-                          interface : votre demande n’a pas été transmise
-                          automatiquement. Vous pouvez copier votre récapitulatif
-                          ci-dessous.
+                          {lang === 'ar'
+                            ? 'انقر على الزر أدناه لفتح تطبيق واتساب وإرسال الرسالة الاحترافية مباشرة إلى رقمنا +216 23331098.'
+                            : 'Cliquez sur le bouton ci-dessous pour ouvrir WhatsApp et transmettre votre message professionnel directement au +216 23331098.'}
                         </p>
                       </div>
                     </div>
 
-                    <pre className="whitespace-pre-wrap font-sans text-xs leading-relaxed bg-[#F3EBDD] border border-[#173D32]/15 p-4 text-[#3B241D]">
-                      {preparedSummary}
+                    <pre className="whitespace-pre-wrap font-sans text-xs leading-relaxed bg-[#F3EBDD] border border-[#173D32]/15 p-4 text-[#3B241D] select-all">
+                      {buildWhatsAppMessage(validatedData)}
                     </pre>
 
-                    <button
-                      type="button"
-                      onClick={handleCopySummary}
-                      className="inline-flex items-center gap-2 border border-[#173D32] text-[#173D32] hover:bg-[#173D32] hover:text-[#F3EBDD] px-4 py-2 text-xs font-medium tracking-[0.08em] uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#173D32]"
-                    >
-                      {copied ? (
-                        <>
-                          <Check className="w-3.5 h-3.5" aria-hidden="true" />
-                          <span>Récapitulatif copié</span>
-                        </>
-                      ) : (
-                        <>
-                          <Copy className="w-3.5 h-3.5" aria-hidden="true" />
-                          <span>Copier le récapitulatif</span>
-                        </>
-                      )}
-                    </button>
+                    <div className="flex flex-wrap items-center gap-3 pt-2">
+                      <a
+                        href={whatsappUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 bg-[#25D366] text-white hover:bg-[#1EBE5D] px-6 py-3.5 text-xs font-semibold tracking-[0.11em] uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#173D32]"
+                      >
+                        <MessageCircle className="w-4 h-4" aria-hidden="true" />
+                        <span>
+                          {lang === 'ar' ? 'إرسال عبر واتساب (+216 23331098)' : 'Envoyer sur WhatsApp (+216 23331098)'}
+                        </span>
+                      </a>
+
+                      <button
+                        type="button"
+                        onClick={handleCopySummary}
+                        className="inline-flex items-center gap-2 border border-[#173D32] text-[#173D32] hover:bg-[#173D32] hover:text-[#F3EBDD] px-5 py-3.5 text-xs font-medium tracking-[0.08em] uppercase transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#173D32]"
+                      >
+                        {copied ? (
+                          <>
+                            <Check className="w-3.5 h-3.5" aria-hidden="true" />
+                            <span>{lang === 'ar' ? 'تم النسخ' : 'Récapitulatif copié'}</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="w-3.5 h-3.5" aria-hidden="true" />
+                            <span>{lang === 'ar' ? 'نسخ النص' : 'Copier le texte'}</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
                   </div>
                 )}
             </div>

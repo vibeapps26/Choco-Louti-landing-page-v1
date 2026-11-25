@@ -1,14 +1,30 @@
 import { useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight, Expand, X } from 'lucide-react';
-import { VERIFIED_CREATIONS, type CreationItem } from '../tokens/brand';
+import { BRAND_ASSETS } from '../tokens/brand';
 import { getWrappedIndex } from '../utils/chocoLogic';
 import { ProductImage } from './ProductImage';
 import { ScrollReveal } from './ScrollReveal';
+import { TRANSLATIONS, type Language } from '../utils/i18n';
 
-export function CreationGallery() {
+interface CreationGalleryProps {
+  lang: Language;
+}
+
+export function CreationGallery({ lang }: CreationGalleryProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const activeCreation: CreationItem | null =
-    activeIndex !== null ? VERIFIED_CREATIONS[activeIndex] : null;
+  const t = TRANSLATIONS[lang].creations;
+  const creations = t.items.map((item, idx) => ({
+    ...item,
+    image:
+      idx === 0
+        ? BRAND_ASSETS.signatureGiftbox
+        : idx === 1
+        ? BRAND_ASSETS.architecturalBlooms
+        : BRAND_ASSETS.macroRose,
+  }));
+
+  const activeCreation =
+    activeIndex !== null ? creations[activeIndex] : null;
 
   useEffect(() => {
     if (activeIndex === null) return;
@@ -21,11 +37,11 @@ export function CreationGallery() {
         setActiveIndex(null);
       } else if (event.key === 'ArrowRight') {
         setActiveIndex((prev) =>
-          prev === null ? null : getWrappedIndex(prev, 1, VERIFIED_CREATIONS.length)
+          prev === null ? null : getWrappedIndex(prev, 1, creations.length)
         );
       } else if (event.key === 'ArrowLeft') {
         setActiveIndex((prev) =>
-          prev === null ? null : getWrappedIndex(prev, -1, VERIFIED_CREATIONS.length)
+          prev === null ? null : getWrappedIndex(prev, -1, creations.length)
         );
       }
     };
@@ -35,11 +51,11 @@ export function CreationGallery() {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener('keydown', onKeyDown);
     };
-  }, [activeIndex]);
+  }, [activeIndex, creations.length]);
 
-  const primary = VERIFIED_CREATIONS[0];
-  const secondary = VERIFIED_CREATIONS[1];
-  const detail = VERIFIED_CREATIONS[2];
+  const primary = creations[0];
+  const secondary = creations[1];
+  const detail = creations[2];
 
   return (
     <section
@@ -52,19 +68,17 @@ export function CreationGallery() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-10 border-b border-[#173D32]/15">
             <div className="space-y-3 max-w-2xl">
               <p className="text-xs font-medium tracking-[0.22em] uppercase text-[#173D32]">
-                Nos Créations
+                {t.eyebrow}
               </p>
               <h2
                 id="creations-heading"
                 className="font-editorial font-normal text-[#173D32] text-[clamp(2rem,3.4vw,3.15rem)] leading-[1.12] text-balance"
               >
-                Des créations qui marquent les esprits.
+                {t.title}
               </h2>
             </div>
             <p className="max-w-md text-sm sm:text-base leading-relaxed text-[#3B241D]/80">
-              Photographies authentiques de nos fleurs en chocolat noir et
-              chocolat blanc, présentées en collerettes ajourées et en coffret
-              signature.
+              {t.desc}
             </p>
           </div>
         </ScrollReveal>
@@ -75,36 +89,38 @@ export function CreationGallery() {
           <ScrollReveal className="lg:col-span-7">
             <article className="group bg-[#DCE4D9]/40 border border-[#173D32]/12 p-4 sm:p-6 transition-all duration-500 ease-out hover:border-[#C5A45A]/65 hover:shadow-[0_22px_50px_-24px_rgba(23,61,50,0.28)]">
               <div className="relative aspect-[4/4.6] sm:aspect-[5/5] overflow-hidden bg-[#173D32]">
-                <ProductImage
-                  src={primary.image.src}
-                  alt={primary.image.alt}
-                  width={primary.image.width}
-                  height={primary.image.height}
-                  imgClassName="object-cover object-[50%_50%] scale-[1.02] opacity-100 transition-all duration-700 ease-out group-hover:opacity-0 group-hover:scale-[1.05] motion-reduce:transition-none motion-reduce:group-hover:opacity-100 motion-reduce:group-hover:scale-[1.02]"
-                  fallbackLabel={primary.title}
-                />
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 ease-out group-hover:opacity-100 motion-reduce:hidden"
-                >
+                <div className="w-full h-full transform transition-transform duration-700 ease-out group-hover:scale-[1.05] group-hover:rotate-[0.6deg]">
                   <ProductImage
                     src={primary.image.src}
-                    alt=""
+                    alt={primary.image.alt}
                     width={primary.image.width}
                     height={primary.image.height}
-                    imgClassName="object-cover object-[56%_68%] scale-[1.52] transition-transform duration-700 ease-out group-hover:scale-[1.58]"
+                    imgClassName="object-cover object-[50%_50%] scale-[1.02] opacity-100 transition-all duration-700 ease-out group-hover:opacity-0 motion-reduce:transition-none motion-reduce:group-hover:opacity-100"
                     fallbackLabel={primary.title}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#173D32]/25 via-transparent to-transparent" />
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 ease-out group-hover:opacity-100 motion-reduce:hidden"
+                  >
+                    <ProductImage
+                      src={primary.image.src}
+                      alt=""
+                      width={primary.image.width}
+                      height={primary.image.height}
+                      imgClassName="object-cover object-[56%_68%] scale-[1.52]"
+                      fallbackLabel={primary.title}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#173D32]/25 via-transparent to-transparent" />
+                  </div>
                 </div>
                 <button
                   type="button"
                   onClick={() => setActiveIndex(0)}
-                  aria-label={`Agrandir la photographie : ${primary.title}`}
+                  aria-label={`${t.observeBig} : ${primary.title}`}
                   className="absolute bottom-4 right-4 z-10 inline-flex items-center gap-2 bg-[#173D32]/90 text-[#F3EBDD] hover:bg-[#173D32] border border-[#C5A45A]/60 group-hover:border-[#C5A45A] px-4 py-2 text-xs tracking-[0.08em] uppercase transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C5A45A]"
                 >
                   <Expand className="w-3.5 h-3.5 text-[#C5A45A]" aria-hidden="true" />
-                  <span>Observer en grand</span>
+                  <span>{t.observeBig}</span>
                 </button>
               </div>
 
@@ -122,41 +138,43 @@ export function CreationGallery() {
             </article>
           </ScrollReveal>
 
-          {/* Right column: two distinct vertical proportions */}
+          {/* Right column */}
           <div className="lg:col-span-5 flex flex-col gap-8">
             <ScrollReveal delayMs={90}>
               <article className="group border border-[#C5A45A]/35 bg-[#F3EBDD] p-4 transition-all duration-500 ease-out hover:border-[#C5A45A]/80 hover:shadow-[0_20px_44px_-22px_rgba(23,61,50,0.24)]">
                 <div className="relative aspect-[4/4.6] max-w-[380px] mx-auto overflow-hidden bg-[#F3EBDD]">
-                  <ProductImage
-                    src={secondary.image.src}
-                    alt={secondary.image.alt}
-                    width={secondary.image.width}
-                    height={secondary.image.height}
-                    imgClassName="object-cover object-[50%_46%] scale-[1.06] opacity-100 transition-all duration-700 ease-out group-hover:opacity-0 group-hover:scale-[1.09] motion-reduce:transition-none motion-reduce:group-hover:opacity-100 motion-reduce:group-hover:scale-[1.06]"
-                    fallbackLabel={secondary.title}
-                  />
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 ease-out group-hover:opacity-100 motion-reduce:hidden"
-                  >
+                  <div className="w-full h-full transform transition-transform duration-700 ease-out group-hover:scale-[1.06] group-hover:rotate-[-0.75deg]">
                     <ProductImage
                       src={secondary.image.src}
-                      alt=""
+                      alt={secondary.image.alt}
                       width={secondary.image.width}
                       height={secondary.image.height}
-                      imgClassName="object-cover object-[50%_54%] scale-[1.38] transition-transform duration-700 ease-out group-hover:scale-[1.44]"
+                      imgClassName="object-cover object-[50%_46%] scale-[1.06] opacity-100 transition-all duration-700 ease-out group-hover:opacity-0 motion-reduce:transition-none motion-reduce:group-hover:opacity-100"
                       fallbackLabel={secondary.title}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#3B241D]/15 via-transparent to-transparent" />
+                    <div
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 ease-out group-hover:opacity-100 motion-reduce:hidden"
+                    >
+                      <ProductImage
+                        src={secondary.image.src}
+                        alt=""
+                        width={secondary.image.width}
+                        height={secondary.image.height}
+                        imgClassName="object-cover object-[50%_54%] scale-[1.38]"
+                        fallbackLabel={secondary.title}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#3B241D]/15 via-transparent to-transparent" />
+                    </div>
                   </div>
                   <button
                     type="button"
                     onClick={() => setActiveIndex(1)}
-                    aria-label={`Agrandir la photographie : ${secondary.title}`}
+                    aria-label={`${t.observeBig} : ${secondary.title}`}
                     className="absolute bottom-3 right-3 z-10 inline-flex items-center gap-1.5 bg-[#F3EBDD]/95 text-[#173D32] hover:bg-[#173D32] hover:text-[#F3EBDD] border border-[#173D32]/25 group-hover:border-[#C5A45A] px-3 py-1.5 text-[11px] tracking-[0.08em] uppercase transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#173D32]"
                   >
                     <Expand className="w-3.5 h-3.5" aria-hidden="true" />
-                    <span>Voir</span>
+                    <span>{t.see}</span>
                   </button>
                 </div>
                 <div className="pt-4 space-y-1.5">
@@ -177,26 +195,28 @@ export function CreationGallery() {
               <article className="group bg-[#173D32] text-[#F3EBDD] p-4 border border-[#C5A45A]/40 transition-all duration-500 ease-out hover:border-[#C5A45A] hover:shadow-[0_20px_44px_-20px_rgba(0,0,0,0.4)]">
                 <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center">
                   <div className="sm:col-span-5 relative aspect-[4/4.6] overflow-hidden bg-[#173D32]">
-                    <ProductImage
-                      src={detail.image.src}
-                      alt={detail.image.alt}
-                      width={detail.image.width}
-                      height={detail.image.height}
-                      imgClassName="object-cover object-[50%_49%] scale-[1.05] opacity-100 transition-all duration-700 ease-out group-hover:opacity-0 group-hover:scale-[1.08] motion-reduce:transition-none motion-reduce:group-hover:opacity-100 motion-reduce:group-hover:scale-[1.05]"
-                      fallbackLabel={detail.title}
-                    />
-                    <div
-                      aria-hidden="true"
-                      className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 ease-out group-hover:opacity-100 motion-reduce:hidden"
-                    >
+                    <div className="w-full h-full transform transition-transform duration-700 ease-out group-hover:scale-[1.06] group-hover:rotate-[0.6deg]">
                       <ProductImage
                         src={detail.image.src}
-                        alt=""
+                        alt={detail.image.alt}
                         width={detail.image.width}
                         height={detail.image.height}
-                        imgClassName="object-cover object-[52%_50%] scale-[1.34] transition-transform duration-700 ease-out group-hover:scale-[1.4]"
+                        imgClassName="object-cover object-[50%_49%] scale-[1.05] opacity-100 transition-all duration-700 ease-out group-hover:opacity-0 motion-reduce:transition-none motion-reduce:group-hover:opacity-100"
                         fallbackLabel={detail.title}
                       />
+                      <div
+                        aria-hidden="true"
+                        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 ease-out group-hover:opacity-100 motion-reduce:hidden"
+                      >
+                        <ProductImage
+                          src={detail.image.src}
+                          alt=""
+                          width={detail.image.width}
+                          height={detail.image.height}
+                          imgClassName="object-cover object-[52%_50%] scale-[1.34]"
+                          fallbackLabel={detail.title}
+                        />
+                      </div>
                     </div>
                   </div>
                   <div className="sm:col-span-7 space-y-2.5 sm:pl-2">
@@ -215,7 +235,7 @@ export function CreationGallery() {
                       className="inline-flex items-center gap-2 pt-1 text-xs tracking-[0.1em] uppercase text-[#C5A45A] hover:text-[#F3EBDD] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C5A45A]"
                     >
                       <Expand className="w-3.5 h-3.5" aria-hidden="true" />
-                      <span>Agrandir l’étude</span>
+                      <span>{t.enlargeStudy}</span>
                     </button>
                   </div>
                 </div>
@@ -225,7 +245,7 @@ export function CreationGallery() {
         </div>
       </div>
 
-      {/* Lightbox modal displaying the full original artwork */}
+      {/* Lightbox modal */}
       {activeCreation && activeIndex !== null && (
         <div
           role="dialog"
@@ -245,7 +265,7 @@ export function CreationGallery() {
               <button
                 type="button"
                 onClick={() => setActiveIndex(null)}
-                aria-label="Fermer l’aperçu"
+                aria-label={t.closePreview}
                 className="inline-flex items-center justify-center w-10 h-10 text-[#173D32] border border-[#173D32]/20 hover:border-[#C5A45A] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#173D32]"
               >
                 <X className="w-5 h-5" aria-hidden="true" />
@@ -281,10 +301,10 @@ export function CreationGallery() {
                       type="button"
                       onClick={() =>
                         setActiveIndex(
-                          getWrappedIndex(activeIndex, -1, VERIFIED_CREATIONS.length)
+                          getWrappedIndex(activeIndex, -1, creations.length)
                         )
                       }
-                      aria-label="Création précédente"
+                      aria-label={t.prev}
                       className="inline-flex items-center justify-center w-10 h-10 border border-[#173D32]/25 text-[#173D32] hover:bg-[#173D32] hover:text-[#F3EBDD] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#173D32]"
                     >
                       <ChevronLeft className="w-4 h-4" aria-hidden="true" />
@@ -293,16 +313,16 @@ export function CreationGallery() {
                       type="button"
                       onClick={() =>
                         setActiveIndex(
-                          getWrappedIndex(activeIndex, 1, VERIFIED_CREATIONS.length)
+                          getWrappedIndex(activeIndex, 1, creations.length)
                         )
                       }
-                      aria-label="Création suivante"
+                      aria-label={t.next}
                       className="inline-flex items-center justify-center w-10 h-10 border border-[#173D32]/25 text-[#173D32] hover:bg-[#173D32] hover:text-[#F3EBDD] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#173D32]"
                     >
                       <ChevronRight className="w-4 h-4" aria-hidden="true" />
                     </button>
                     <span className="ml-2 text-xs text-[#3B241D]/70 tabular-nums">
-                      {activeIndex + 1} / {VERIFIED_CREATIONS.length}
+                      {activeIndex + 1} / {creations.length}
                     </span>
                   </div>
 
@@ -311,7 +331,7 @@ export function CreationGallery() {
                     onClick={() => setActiveIndex(null)}
                     className="inline-flex items-center justify-center bg-[#173D32] text-[#F3EBDD] hover:bg-[#3B241D] px-5 py-2.5 text-xs font-medium tracking-[0.1em] uppercase transition-colors"
                   >
-                    Demander une création
+                    {t.requestCreation}
                   </a>
                 </div>
               </div>

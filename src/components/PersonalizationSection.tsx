@@ -1,38 +1,22 @@
 import { ArrowRight } from 'lucide-react';
-import { OCCASIONS, type OccasionLabel } from '../utils/chocoLogic';
+import { OCCASIONS_MAP, TRANSLATIONS, type Language } from '../utils/i18n';
 import { OrnamentDivider } from './OrnamentDivider';
 import { ScrollReveal } from './ScrollReveal';
 
-const STAGES = [
-  {
-    number: '01',
-    title: 'Votre occasion',
-    description:
-      'Vous identifiez le moment que vous souhaitez célébrer et l’intention que vous voulez transmettre à travers ce présent.',
-  },
-  {
-    number: '02',
-    title: 'Votre inspiration',
-    description:
-      'Vous partagez vos préférences visuelles, l’ambiance souhaitée et l’esprit de votre geste entre chocolat noir et chocolat blanc.',
-  },
-  {
-    number: '03',
-    title: 'Votre demande',
-    description:
-      'Nous échangeons directement autour de votre idée afin d’imaginer ensemble la présentation qui correspond à votre attente.',
-  },
-] as const;
-
 interface PersonalizationSectionProps {
   selectedOccasion: string;
-  onSelectOccasion: (occasion: OccasionLabel) => void;
+  onSelectOccasion: (occasion: string) => void;
+  lang: Language;
 }
 
 export function PersonalizationSection({
   selectedOccasion,
   onSelectOccasion,
+  lang,
 }: PersonalizationSectionProps) {
+  const t = TRANSLATIONS[lang].personalization;
+  const occasions = OCCASIONS_MAP[lang];
+
   return (
     <section
       id="personnalisation"
@@ -43,13 +27,13 @@ export function PersonalizationSection({
         <ScrollReveal>
           <div className="max-w-3xl mx-auto text-center space-y-5">
             <p className="text-xs font-medium tracking-[0.22em] uppercase text-[#C5A45A]">
-              Personnalisation
+              {t.eyebrow}
             </p>
             <h2
               id="personnalisation-heading"
               className="font-editorial font-normal text-[#F3EBDD] text-[clamp(2rem,3.6vw,3.3rem)] leading-[1.12] text-balance"
             >
-              Votre idée. Notre inspiration. Une création à partager.
+              {t.title}
             </h2>
             <OrnamentDivider tone="gold" align="center" className="pt-2" />
           </div>
@@ -58,7 +42,7 @@ export function PersonalizationSection({
         {/* Three editorial presentation stages */}
         <ScrollReveal delayMs={90}>
           <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
-            {STAGES.map((stage) => (
+            {t.stages.map((stage) => (
               <div
                 key={stage.number}
                 className="h-full border-t border-[#C5A45A]/55 pt-7 space-y-4"
@@ -85,14 +69,14 @@ export function PersonalizationSection({
           <div className="mt-14 pt-10 border-t border-[#F3EBDD]/15 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
             <div className="space-y-3">
               <p className="text-xs tracking-[0.18em] uppercase text-[#DCE4D9]/85">
-                Orientations d’occasions
+                {t.orientation}
               </p>
               <div
                 role="group"
-                aria-label="Sélectionner une occasion pour votre demande"
+                aria-label={t.orientation}
                 className="flex flex-wrap gap-2.5"
               >
-                {OCCASIONS.map((occasion) => {
+                {occasions.map((occasion) => {
                   const active = selectedOccasion === occasion;
                   return (
                     <button
@@ -117,7 +101,7 @@ export function PersonalizationSection({
               href="#contact"
               className="inline-flex items-center justify-center gap-2.5 whitespace-nowrap shrink-0 bg-[#F3EBDD] text-[#173D32] hover:bg-[#C5A45A] px-7 py-3.5 text-xs font-semibold tracking-[0.11em] uppercase transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C5A45A]"
             >
-              <span>Imaginer ma création</span>
+              <span>{TRANSLATIONS[lang].nav.imagineMyCreation}</span>
               <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </a>
           </div>

@@ -39,23 +39,31 @@ export function isValidEmailOrPhone(value: string): boolean {
   return digitCount >= 8 && digitCount <= 15;
 }
 
-export function validateContactForm(data: ContactFormData): ContactValidationResult {
+export function validateContactForm(data: ContactFormData, lang: 'fr' | 'ar' = 'fr'): ContactValidationResult {
   const errors: Partial<Record<keyof ContactFormData, string>> = {};
 
   if (data.name.trim().length < 2) {
-    errors.name = 'Veuillez indiquer votre nom (minimum 2 caractères).';
+    errors.name = lang === 'ar'
+      ? 'يرجى إدخال اسمك (حرفان على الأقل).'
+      : 'Veuillez indiquer votre nom (minimum 2 caractères).';
   }
 
   if (!isValidEmailOrPhone(data.contact)) {
-    errors.contact = 'Veuillez saisir une adresse e-mail ou un numéro de téléphone valide.';
+    errors.contact = lang === 'ar'
+      ? 'يرجى إدخال بريد إلكتروني أو رقم هاتف صحيح.'
+      : 'Veuillez saisir une adresse e-mail ou un numéro de téléphone valide.';
   }
 
   if (!data.occasion.trim()) {
-    errors.occasion = 'Veuillez sélectionner une occasion.';
+    errors.occasion = lang === 'ar'
+      ? 'يرجى اختيار المناسبة.'
+      : 'Veuillez sélectionner une occasion.';
   }
 
   if (data.message.trim().length < 10) {
-    errors.message = 'Veuillez décrire votre inspiration ou demande (minimum 10 caractères).';
+    errors.message = lang === 'ar'
+      ? 'يرجى وصف طلبك أو إلهامك (10 أحرف على الأقل).'
+      : 'Veuillez décrire votre inspiration ou demande (minimum 10 caractères).';
   }
 
   return {
@@ -71,6 +79,22 @@ export function buildInquirySummary(data: ContactFormData): string {
     `Contact : ${data.contact.trim()}`,
     `Occasion : ${data.occasion.trim()}`,
     `Message : ${data.message.trim()}`,
+  ].join('\n');
+}
+
+export function buildWhatsAppMessage(data: ContactFormData): string {
+  return [
+    `🍫 *CHOCO LOUTI — Nouvelle Demande Sur Mesure* 🍫`,
+    ``,
+    `👤 *Nom* : ${data.name.trim()}`,
+    `📞 *Contact* : ${data.contact.trim()}`,
+    `✨ *Occasion* : ${data.occasion.trim()}`,
+    ``,
+    `📝 *Message / Inspiration* :`,
+    `${data.message.trim()}`,
+    ``,
+    `---`,
+    `Envoyé depuis le site officiel CHOCO LOUTI`
   ].join('\n');
 }
 

@@ -2,29 +2,15 @@ import { BRAND_ASSETS } from '../tokens/brand';
 import { OrnamentDivider } from './OrnamentDivider';
 import { ProductImage } from './ProductImage';
 import { ScrollReveal } from './ScrollReveal';
+import { TRANSLATIONS, type Language } from '../utils/i18n';
 
-const CRAFTSMANSHIP_PILLARS = [
-  {
-    index: '01',
-    title: 'Pétales modelés',
-    description:
-      'Des fleurs façonnées pétale après pétale, serties dans leur collerette ajourée.',
-  },
-  {
-    index: '02',
-    title: 'Composition sur mesure',
-    description:
-      'Une attention pensée selon votre occasion, entre intensité du noir et douceur du blanc.',
-  },
-  {
-    index: '03',
-    title: 'Écrin de présentation',
-    description:
-      'Un coffret ivoire fermé d’un ruban vert profond, pensé pour offrir dès le premier regard.',
-  },
-] as const;
+interface MaisonSectionProps {
+  lang: Language;
+}
 
-export function MaisonSection() {
+export function MaisonSection({ lang }: MaisonSectionProps) {
+  const t = TRANSLATIONS[lang].maison;
+
   return (
     <section
       id="maison"
@@ -44,7 +30,7 @@ export function MaisonSection() {
                     width={BRAND_ASSETS.architecturalBlooms.width}
                     height={BRAND_ASSETS.architecturalBlooms.height}
                     imgClassName="object-cover object-[50%_46%] scale-[1.06] transition-transform duration-700 ease-out hover:scale-[1.08]"
-                    fallbackLabel="Triptyque de fleurs en chocolat"
+                    fallbackLabel={t.altTag}
                   />
                 </div>
               </div>
@@ -58,14 +44,14 @@ export function MaisonSection() {
                     width={BRAND_ASSETS.macroRose.width}
                     height={BRAND_ASSETS.macroRose.height}
                     imgClassName="object-cover object-[50%_49%] scale-[1.15]"
-                    fallbackLabel="Détail des pétales sculptés"
+                    fallbackLabel={t.macroTag}
                   />
                 </div>
               </div>
 
               <figcaption className="mt-3 text-xs tracking-[0.05em] text-[#3B241D]/75 flex flex-wrap items-center justify-between gap-2">
-                <span>Fleurs en chocolat noir &amp; blanc</span>
-                <span className="text-[#B9875B]">Collerettes ajourées</span>
+                <span>{t.caption}</span>
+                <span className="text-[#B9875B]">{t.dentelle}</span>
               </figcaption>
             </figure>
           </ScrollReveal>
@@ -76,23 +62,20 @@ export function MaisonSection() {
             <ScrollReveal delayMs={0} className="space-y-5 sm:space-y-6">
               <div className="space-y-3">
                 <p className="text-xs font-medium tracking-[0.22em] uppercase text-[#173D32]">
-                  La Maison
+                  {t.eyebrow}
                 </p>
                 <h2
                   id="maison-heading"
                   className="font-editorial font-normal text-[#173D32] text-[clamp(1.95rem,3.4vw,3.1rem)] leading-[1.12] text-balance"
                 >
-                  L’élégance du chocolat, pensée sur mesure.
+                  {t.title}
                 </h2>
               </div>
 
               <OrnamentDivider tone="gold" align="left" />
 
               <p className="max-w-2xl text-[15px] sm:text-[17px] leading-[1.7] text-[#3B241D]/90">
-                CHOCO LOUTI imagine chaque fleur en chocolat comme un objet
-                d’attention. Façonnés en chocolat noir et en chocolat blanc, nos
-                bouquets en coffret réunissent précision du modelage, contraste des
-                matières et plaisir authentique d’offrir.
+                {t.body}
               </p>
             </ScrollReveal>
 
@@ -101,7 +84,7 @@ export function MaisonSection() {
               delayMs={120}
               className="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-6 pt-5 sm:pt-6 border-t border-[#173D32]/15"
             >
-              {CRAFTSMANSHIP_PILLARS.map((pillar) => (
+              {t.pillars.map((pillar) => (
                 <div
                   key={pillar.index}
                   className="transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5"
